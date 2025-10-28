@@ -1,0 +1,25 @@
+# Ignoring the actions runner folder
+actions-runner/
+
+# Ignoring venv folders
+venv/
+
+# Ignoring rendered files
+pipeline/setup/docker-compose.yml
+
+# Ignoring python cache
+pipeline/utils/__pycache__/
+
+# Ignoring MacOS files
+.DS_Store
+
+# Ignoring package compilation folders
+services/devopsproeu-bgp/load-dir/
+
+# Ignoring test result files
+services/devopsproeu-bgp/tests/*.html
+services/devopsproeu-bgp/tests/*.xml
+services/devopsproeu-bgp/tests/*.json
+
+# Ignoring artifacts in the mounted volume pipeline/preconfigs
+pipeline/preconfigs/*.tar.gz
