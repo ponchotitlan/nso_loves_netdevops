@@ -1,0 +1,14 @@
+nso-base: cisco-nso-prod:6.5
+nso-image: my-nso-custom-dev
+nso-name: my-nso-dev
+
+downloads:
+  - https://github.com/ponchotitlan/dummy_artefact_repository/releases/download/iosxr6.5/ncs-6.5-cisco-iosxr-7.69.tar.gz
+
+skip-compilation:
+  - cisco-iosxr-cli-7.69
+
+netsims:
+  cisco-iosxr-cli-7.69:
+    - asr9k-xr-7601
+    - ncs5k-xr-5702

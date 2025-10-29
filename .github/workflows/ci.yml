@@ -1,0 +1,124 @@
+name: Network Services Delivery with NetDevOps demo
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  check-out:
+    runs-on: self-hosted
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+  inventory-lint:
+    runs-on: self-hosted
+    needs: check-out
+    steps:
+    - name: 🗳️ Lint inventory
+      run: |
+        make lint
+
+  build-staging-env:
+    runs-on: self-hosted
+    needs: inventory-lint
+    steps:
+    - name: 🛠️ Build staging env
+      run: |
+        make render
+        make build
+        make run
+        make compile
+        make reload
+
+  test:
+    runs-on: self-hosted
+    needs: build-staging-env
+    steps:
+    - name: 🤖 Run tests
+      env:
+        ENVIRONMENT: test
+        TEST_AUTH_HASH: ${{ secrets.TEST_AUTH_HASH }}
+      run: |
+        make netsims
+        make test
+
+  create-artifact-test:
+    runs-on: self-hosted
+    needs: test
+    if: always()
+    steps:
+    - name: 📦 Generate artifacts
+      env:
+        ENVIRONMENT: test
+      run: |
+        make create-artifact-tests
+
+    - name: 📦 Upload tests artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: netdevops_tests
+        path: pipeline/preconfigs/netdevops_test.tar.gz
+
+  commit:
+    runs-on: self-hosted
+    needs: create-artifact-test
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    steps:
+    - name: ⚡️ Commit inventory changes
+      env:
+        ENVIRONMENT: production
+        PROD_AUTH_HASH: ${{ secrets.PROD_AUTH_HASH }}
+      run: |
+        make test
+
+  create-artifact-commit:
+    runs-on: self-hosted
+    needs: commit
+    steps:
+    - name: 📦 Generate artifacts
+      env:
+        ENVIRONMENT: production
+      run: |
+        make create-artifact-tests
+
+    - name: 📦 Upload tests artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: netdevops_commit
+        path: pipeline/preconfigs/netdevops_commit.tar.gz
+
+  release:
+    runs-on: self-hosted
+    needs: create-artifact-commit
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    steps:
+      - name: ⭐️ Get the latest tag
+        id: get_latest_tag
+        run: make get-current-release-tag
+        
+      - name: ⭐️ Increment version
+        id: increment_version
+        run: make calculate-new-release-tag VERSION=${{ env.tag }}
+
+      - name: ⭐️ Create Release and Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ⭐️ Release v.${{ env.new_version }} ⭐️
+          tag_name: ${{ env.new_version }}
+          body: |
+            🏅 Automated Inventory Release v.${{ env.new_version }} 🏅
+          files: pipeline/preconfigs/netdevops_commit.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup-staging-env:
+    runs-on: self-hosted
+    needs: create-artifact-test
+    steps:
+    - name: 🧹 Cleanup resources
+      run: make down

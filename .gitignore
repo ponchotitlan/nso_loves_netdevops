@@ -23,3 +23,11 @@ services/devopsproeu-bgp/tests/*.json
 
 # Ignoring artifacts in the mounted volume pipeline/preconfigs
 pipeline/preconfigs/*.tar.gz
+
+# Ignoring test virtualenv
+.venv
+
+# Ignoring rendered files
+docker-compose.yml
+Dockerfile
+
