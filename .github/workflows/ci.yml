@@ -136,7 +136,13 @@ jobs:
 
   cleanup-staging-env:
     runs-on: self-hosted
-    needs: create-artifact-test
+    if: ${{ always() }}
+    needs:
+      - check-out
+      - inventory-lint
+      - build-staging-env
+      - test
+      - create-artifact-test
     steps:
-    - name: 🧹 Cleanup resources
-      run: make down
+      - name: 🧹 Cleanup resources (always)
+        run: make down
