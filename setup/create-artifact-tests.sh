@@ -19,8 +19,7 @@ tar_folders_test(){
 # Usage tar_logs <container_name(str)>
 tar_logs(){
     local container_name="$1"
-    docker exec -i $container_name bash -lc "ls"
-    docker exec -i $container_name bash -lc "tar -czvf /tmp/nso/demo_logs.tar.gz log"
+    docker exec -i $container_name bash -lc "tar -czvf /tmp/nso/demo_logs.tar.gz /log"
 }
 
 YAML_FILE_CONFIG="config.yaml"
