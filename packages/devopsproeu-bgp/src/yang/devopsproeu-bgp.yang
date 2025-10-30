@@ -12,13 +12,16 @@ module devopsproeu-bgp {
   import tailf-ncs {
     prefix ncs;
   }
+  import tailf-ned-cisco-ios-xr {
+    prefix cisco-ios-xr;
+  }
 
   description
     "Example NSO service for BGP provisioning. Demo for DevOpsPro Europe 2025";
 
-  revision 2025-04-05 {
+  revision 2025-10-30 {
     description
-      "Initial revision.";
+      "Demo revision.";
   }
 
   list devopsproeu-bgp {
@@ -53,13 +56,21 @@ module devopsproeu-bgp {
         description "Remote autonomous system (AS) number.";
       }
 
-      list networks {
-        key "prefix";
-        description "Networks to advertise via BGP.";
+      container address-family {
+        leaf in-policy {
+          type leafref {
+            path "/ncs:devices/ncs:device[ncs:name=current()/../../../device]/ncs:config/cisco-ios-xr:route-policy/cisco-ios-xr:name";
+          }
+          description
+            "Reference to an existing inbound route-policy on the target device.";
+        }
 
-        leaf prefix {
-          type inet:ipv4-prefix;
-          description "IPv4 prefix to advertise.";
+        leaf out-policy {
+          type leafref {
+            path "/ncs:devices/ncs:device[ncs:name=current()/../../../device]/ncs:config/cisco-ios-xr:route-policy/cisco-ios-xr:name";
+          }
+          description
+            "Reference to an existing outbound route-policy on the target device.";
         }
       }
     }

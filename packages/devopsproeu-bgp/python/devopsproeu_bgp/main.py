@@ -15,10 +15,9 @@ class ServiceCallbacks(Service):
         for neighbour in service.neighbors:
             vars.add('REMOTE-ADRESS', neighbour.address)
             vars.add('REMOTE-AS', neighbour.remote_as)
-            
-            for network in neighbour.networks:
-                vars.add('PREFIX', network.prefix)
-                template.apply('devopsproeu-bgp-template', vars)
+            vars.add('IN-POLICY', neighbour.address_family.in_policy)
+            vars.add('OUT-POLICY', neighbour.address_family.out_policy)
+            template.apply('devopsproeu-bgp-template', vars)
 
 class Main(ncs.application.Application):
     def setup(self):

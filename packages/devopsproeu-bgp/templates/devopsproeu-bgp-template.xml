@@ -1,4 +1,4 @@
-<config-template xmlns="http://tail-f.com/ns/config/1.0">
+<config xmlns="http://tail-f.com/ns/config/1.0">
   <devices xmlns="http://tail-f.com/ns/ncs">
     <device>
       <name>{$DEVICE}</name>
@@ -9,16 +9,26 @@
               <id>{$LOCAL-AS}</id>
               <address-family>
                 <ipv4>
-                  <unicast>
-                    <network>
-                      <net>{$PREFIX}</net>
-                    </network>
-                  </unicast>
+                  <unicast/>
                 </ipv4>
               </address-family>
               <neighbor>
                 <id>{$REMOTE-ADRESS}</id>
                 <remote-as>{$REMOTE-AS}</remote-as>
+                <address-family>
+                  <ipv4>
+                    <unicast>
+                      <route-policy>
+                        <direction>in</direction>
+                        <name>{$IN-POLICY}</name>
+                      </route-policy>
+                      <route-policy>
+                        <direction>out</direction>
+                        <name>{$OUT-POLICY}</name>
+                      </route-policy>
+                    </unicast>
+                  </ipv4>
+                </address-family>
               </neighbor>
             </bgp-no-instance>
           </bgp>
@@ -26,4 +36,4 @@
       </config>
     </device>
   </devices>
-</config-template>
+</config>
