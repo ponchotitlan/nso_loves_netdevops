@@ -11,10 +11,8 @@ SECRET_FILE="artifact_server_token.txt"
 # Manual parsing of the YAML file to extract values
 nso_image=$(awk -F': ' '/^nso-image:/ {print $2}' "$CONFIG_FILE")
 
-# Prompt to get the artifact_server_token
-read -s -p "🔑 Enter your username and artifact server token in this format ➡️ username:token (or hit Enter if not required): " SECRET_TOKEN;
- set +x
-TRIMMED_SECRET=$(echo "$SECRET_TOKEN" | xargs)
+# Get the artifact_server_token from an environment variable
+TRIMMED_SECRET=$(echo "$DOWNLOAD_TOKEN" | xargs)
 
 # Checking of the appropriate secret format
 if [[ -z "$TRIMMED_SECRET" ]]; then
