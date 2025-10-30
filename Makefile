@@ -58,6 +58,8 @@ netsims:
 	./setup/load-preconfigs.sh
 	@echo "--- 🛸 Loading netsims ---"
 	./setup/load-netsims.sh
+	@echo "--- ⬇️ Loading preconfiguration files again (for device-targeted configs)---"
+	./setup/load-preconfigs.sh
 
 # Target for installation of testing libraries in a python venv in the worker node.
 # Rendering of the JSON payload based on the inventory file.
