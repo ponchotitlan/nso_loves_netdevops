@@ -76,6 +76,12 @@ jobs:
         name: netdevops_logs
         path: preconfigs/demo_logs.tar.gz
 
+    - name: 📦 Upload preconfigs artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: netdevops_preconfigs
+        path: preconfigs/demo_preconfigs.tar.gz
+
   # commit:
   #   runs-on: self-hosted
   #   needs: create-artifact-test
@@ -130,7 +136,13 @@ jobs:
 
   cleanup-staging-env:
     runs-on: self-hosted
-    needs: create-artifact-test
+    if: ${{ always() }}
+    needs:
+      - check-out
+      - inventory-lint
+      - build-staging-env
+      - test
+      - create-artifact-test
     steps:
-    - name: 🧹 Cleanup resources
-      run: make down
+      - name: 🧹 Cleanup resources (always)
+        run: make down
