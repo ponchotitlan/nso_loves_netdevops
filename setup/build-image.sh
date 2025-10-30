@@ -36,3 +36,4 @@ DOCKER_BUILDKIT=1 docker build \
 
 # Deletion of the artifact server token file
 rm -rf $SECRET_FILE
+
