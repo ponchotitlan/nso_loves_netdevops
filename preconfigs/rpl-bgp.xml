@@ -1,0 +1,28 @@
+<devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+        <name>asr9k-xr-7601</name>
+        <config>
+        <route-policy xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <name>TEST_RPL_01</name>
+            <value>pass</value>
+        </route-policy>
+        <route-policy xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <name>TEST_RPL_02</name>
+            <value>drop</value>
+        </route-policy>
+        </config>
+    </device>
+    <device>
+        <name>ncs5k-xr-5702</name>
+        <config>
+        <route-policy xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <name>TEST_RPL_01</name>
+            <value>pass</value>
+        </route-policy>
+        <route-policy xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <name>TEST_RPL_02</name>
+            <value>drop</value>
+        </route-policy>
+        </config>
+    </device>
+</devices>
