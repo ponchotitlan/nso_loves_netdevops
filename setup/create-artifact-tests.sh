@@ -22,6 +22,11 @@ tar_logs(){
     docker exec -i $container_name bash -lc "tar -czvf /tmp/nso/demo_logs.tar.gz /log"
 }
 
+# This function creates a tar file with all the xml files from the preconfigs
+tar_preconfigs(){
+    find "preconfigs/" -type f -name "*.xml" -print0 | tar --null -cvf "preconfigs/demo_preconfigs.tar.gz" --files-from=-
+}
+
 YAML_FILE_CONFIG="config.yaml"
 PACKAGES_DIR="packages"
 
@@ -39,6 +44,7 @@ for package in "${all_packages[@]}"; do
     service_tests+=("${package}/tests")
 done
 
+tar_preconfigs
 tar_folders_test $nso_container_name ${service_tests[@]}
 tar_logs $nso_container_name
 

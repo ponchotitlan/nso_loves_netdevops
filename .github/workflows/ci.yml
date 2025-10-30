@@ -76,6 +76,12 @@ jobs:
         name: netdevops_logs
         path: preconfigs/demo_logs.tar.gz
 
+    - name: 📦 Upload preconfigs artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: netdevops_preconfigs
+        path: preconfigs/demo_preconfigs.tar.gz
+
   # commit:
   #   runs-on: self-hosted
   #   needs: create-artifact-test
