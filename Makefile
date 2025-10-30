@@ -73,9 +73,18 @@ test:
 		echo "🤖✅ All tests were successful!"; \
 	fi
 
+# Target for creation of artifacts - packages, test results and NSO logs
 artifacts:
 	./setup/create-artifact-packages.sh
 	./setup/create-artifact-tests.sh
+
+# Target to get the current release tag
+get-current-release-tag:
+	@pipeline/scripts/get-latest-git-tag.sh
+
+# Target to calculate the new release tag
+calculate-new-release-tag:
+	@pipeline/scripts/increment-git-tag-version.sh $(VERSION)
 
 # Target to stop Docker Compose services
 down:
