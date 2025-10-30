@@ -10,7 +10,7 @@
 # Usage tar_folders <container_name(str)> <package_folder_names(array(str))>
 tar_folders(){
     local container_name="$1"
-    local packages_array="$@"
+    local packages_array="$2"
     local ARTIFACT_NAME="demo_packages.tar.gz"
     local ARTIFACT_DIR="/tmp/nso"
 

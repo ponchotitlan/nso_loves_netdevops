@@ -10,7 +10,7 @@
 # Usage tar_folders_test <container_name(str)> <package_folder_names(array(str))>
 tar_folders_test(){
     local container_name="$1"
-    local tests_array="$@"
+    local tests_array="$2"
 
     docker exec -i $container_name bash -lc "cd /nso/run/packages/ && tar -czvf /tmp/nso/demo_test.tar.gz ${tests_array[@]}"
 }
@@ -19,7 +19,7 @@ tar_folders_test(){
 # Usage tar_logs <container_name(str)>
 tar_logs(){
     local container_name="$1"
-
+    docker exec -i $container_name bash -lc "ls"
     docker exec -i $container_name bash -lc "tar -czvf /tmp/nso/demo_logs.tar.gz log"
 }
 
