@@ -33,3 +33,9 @@ Dockerfile
 
 # Ignoring compiled files from packages
 packages/devopsproeu-bgp/load-dir/
+
+# Ignoring the test results from packages
+packages/devopsproeu-bgp/tests/log.html
+packages/devopsproeu-bgp/tests/report.html
+packages/devopsproeu-bgp/tests/output.xml
+packages/devopsproeu-bgp/tests/devopsproeu-bgp.json
