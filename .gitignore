@@ -31,3 +31,5 @@ pipeline/preconfigs/*.tar.gz
 docker-compose.yml
 Dockerfile
 
+# Ignoring compiled files from packages
+packages/devopsproeu-bgp/load-dir/

@@ -1,6 +1,5 @@
 # devopsproeu-bgp
-## Example NSO service for BGP provisioning. Demo for DevOpsPro Europe 2025 🇱🇹🇪🇺
-### Session "Taming your Data Networks with the Power of NetDevOps"
+## Example NSO service for BGP provisioning
 
 This is a service for the Cisco Crossworks Network Services Orchestrator (NSO) intended for the provisioning of BGP configurations in target Cisco IOSXR devices.
 
