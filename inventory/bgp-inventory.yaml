@@ -9,11 +9,31 @@ data:
           address-family:
             in-policy: TEST_RPL_01
             out-policy: TEST_RPL_02
+        - address: 192.168.2.7
+          remote-as: 65003
+          address-family:
+            in-policy: TEST_RPL_01
+            out-policy: TEST_RPL_03
+        - address: 192.168.2.8
+          remote-as: 65004
+          address-family:
+            in-policy: PROD_RPL_01
+            out-policy: PROD_RPL_02
+        - address: 192.168.2.9
+          remote-as: 65005
+          address-family:
+            in-policy: TEST_RPL_01
+            out-policy: PROD_RPL_02
     - device: ncs5k-xr-5702
       local-as: 65001
       neighbors:
         - address: 192.168.2.6
           remote-as: 65002
           address-family:
-            in-policy: TEST_RPL_01
+            in-policy: TEST_RPL_03
+            out-policy: TEST_RPL_04
+        - address: 192.168.2.7
+          remote-as: 65003
+          address-family:
+            in-policy: PROD_01
             out-policy: TEST_RPL_02
