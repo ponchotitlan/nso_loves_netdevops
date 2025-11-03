@@ -82,57 +82,57 @@ jobs:
         name: netdevops_preconfigs
         path: preconfigs/demo_preconfigs.tar.gz
 
-  # commit:
-  #   runs-on: self-hosted
-  #   needs: create-artifact-test
-  #   if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
-  #   steps:
-  #   - name: ⚡️ Commit inventory changes
-  #     env:
-  #       ENVIRONMENT: production
-  #       PROD_AUTH_HASH: ${{ secrets.PROD_AUTH_HASH }}
-  #     run: |
-  #       make test
+  commit:
+    runs-on: self-hosted
+    needs: create-artifact-test
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    steps:
+    - name: ⚡️ Commit inventory changes
+      env:
+        ENVIRONMENT: production
+        PROD_AUTH_HASH: ${{ secrets.PROD_AUTH_HASH }}
+      run: |
+        make test
 
-  # create-artifact-commit:
-  #   runs-on: self-hosted
-  #   needs: commit
-  #   steps:
-  #   - name: 📦 Generate artifacts
-  #     env:
-  #       ENVIRONMENT: production
-  #     run: |
-  #       make artifacts
+  create-artifact-commit:
+    runs-on: self-hosted
+    needs: commit
+    steps:
+    - name: 📦 Generate artifacts
+      env:
+        ENVIRONMENT: production
+      run: |
+        make artifacts
 
-  #   - name: 📦 Upload tests artifact
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: netdevops_commit
-  #       path: preconfigs/netdevops_commit.tar.gz
+    - name: 📦 Upload tests artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: netdevops_commit
+        path: preconfigs/demo_test.tar.gz
 
-  # release:
-  #   runs-on: self-hosted
-  #   needs: create-artifact-commit
-  #   if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
-  #   steps:
-  #     - name: ⭐️ Get the latest tag
-  #       id: get_latest_tag
-  #       run: make get-current-release-tag
+  release:
+    runs-on: self-hosted
+    needs: create-artifact-commit
+    if: github.ref == 'refs/heads/main' && needs.test.result == 'success'
+    steps:
+      - name: ⭐️ Get the latest tag
+        id: get_latest_tag
+        run: make get-current-release-tag
         
-  #     - name: ⭐️ Increment version
-  #       id: increment_version
-  #       run: make calculate-new-release-tag VERSION=${{ env.tag }}
+      - name: ⭐️ Increment version
+        id: increment_version
+        run: make calculate-new-release-tag VERSION=${{ env.tag }}
 
-  #     - name: ⭐️ Create Release and Upload Assets
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         name: ⭐️ Release v.${{ env.new_version }} ⭐️
-  #         tag_name: ${{ env.new_version }}
-  #         body: |
-  #           🏅 Automated Inventory Release v.${{ env.new_version }} 🏅
-  #         files: preconfigs/netdevops_commit.tar.gz
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: ⭐️ Create Release and Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ⭐️ Release v.${{ env.new_version }} ⭐️
+          tag_name: ${{ env.new_version }}
+          body: |
+            🏅 Automated Inventory Release v.${{ env.new_version }} 🏅
+          files: preconfigs/demo_packages.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   cleanup-staging-env:
     runs-on: self-hosted
