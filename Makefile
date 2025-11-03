@@ -82,11 +82,11 @@ artifacts:
 
 # Target to get the current release tag
 get-current-release-tag:
-	@pipeline/scripts/get-latest-git-tag.sh
+	./setup/scripts/get-latest-git-tag.sh
 
 # Target to calculate the new release tag
 calculate-new-release-tag:
-	@pipeline/scripts/increment-git-tag-version.sh $(VERSION)
+	./setup/scripts/increment-git-tag-version.sh $(VERSION)
 
 # Target to stop Docker Compose services
 down:
