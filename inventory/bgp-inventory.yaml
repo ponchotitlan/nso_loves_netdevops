@@ -9,11 +9,21 @@ data:
           address-family:
             in-policy: TEST_RPL_01
             out-policy: TEST_RPL_02
+        - address: 192.170.2.61
+          remote-as: 65003
+          address-family:
+            in-policy: TEST_RPL_01
+            out-policy: TEST_RPL_02
     - device: ncs5k-xr-5702
       local-as: 65001
       neighbors:
         - address: 192.168.2.6
           remote-as: 65002
+          address-family:
+            in-policy: TEST_RPL_01
+            out-policy: TEST_RPL_02
+        - address: 192.170.1.60
+          remote-as: 65003
           address-family:
             in-policy: TEST_RPL_01
             out-policy: TEST_RPL_02
